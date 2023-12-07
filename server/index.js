@@ -1,11 +1,15 @@
+// Importing Built in modules  
 import dotenv from "dotenv";
 dotenv.config();
 import express from "express";
 import cors from "cors";
+import multer from "multer";
+// Importing Custom Functions
 import { connectDB } from "./config/db.js";
 import { User } from "./models/User.js";
 import { sendEmail } from "./middlewares/sendEmail.js";
 import { generateCertificate } from "./helpers/generateCertificate.js";
+import { excelToJson } from "./helpers/excelToJson.js";
 
 const app=express();
 
@@ -14,13 +18,17 @@ app.use(express.json());
 app.use(cors());
 app.set('view engine', 'ejs')
 
-app.post("/create",async(req,res)=>{
+const upload=multer({storage: multer.memoryStorage()});
+
+app.post("/create",upload.single("file"),async(req,res)=>{
     try{
-        let userData=req.body;
+        const excelFile=req.file;
+
+        let userData=excelToJson(excelFile.buffer);
 
         const oneTree=100;
 
-        userData=await userData.map(async(eachUser)=>{
+        const promises=userData.map(async(eachUser)=>{
             const keysArray=Object.keys(eachUser);
             const updatedObj={
                 name:eachUser[keysArray[0]],
@@ -31,16 +39,18 @@ app.post("/create",async(req,res)=>{
             }   
             const {name,email}=updatedObj;
            
-            const bufferPdf=await generateCertificate(updatedObj.name);
+            const bufferPdf=await generateCertificate(name);
            
             const emailFound=await User.findOne({email:email});
 
             if(!emailFound){
                 await sendEmail(name,email,`${name}'s Certificate.pdf`,bufferPdf.toString("base64")); 
-     
+
                 await User.create(updatedObj);
             }
         })
+
+        await Promise.all(promises);
 
         const users=await User.find({});
 

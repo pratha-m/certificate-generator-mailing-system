@@ -21,6 +21,5 @@ export const sendEmail=async(userName,userEmail,fileName,pdfBuffer)=>{
             }
         ]
     }
-
-    await transporter.sendMail(mailOptions)
+    await transporter.sendMail(mailOptions) 
 }

@@ -18,9 +18,6 @@ const getAllUsers=async()=>{
         console.log("Error in getting users")
     }
 }
-
-getAllUsers();
-
 uploadForm.addEventListener("submit",async(e)=>{
     e.preventDefault();
 
@@ -29,37 +26,23 @@ uploadForm.addEventListener("submit",async(e)=>{
     if(fileInput.files.length>0){
         const file=fileInput.files[0];
         
-        const reader=new FileReader();
+        const formData=new FormData();
 
-        reader.onload=(ev)=>{
-           const fileContent=ev.target.result; 
+        formData.append("file",file)
 
-           const workbook=XLSX.read(fileContent,{type:"binary"});
-
-           const sheetName = workbook.SheetNames[0];
-
-           const sheet = workbook.Sheets[sheetName];
-
-           const excelData = XLSX.utils.sheet_to_json(sheet, { header: 2 });
-
-           sendData(excelData)
-        }
-        
-        reader.readAsBinaryString(file);
+        await sendData(formData);
     }    
     else{
         alert("Pls Upload The File")
     }
 })
-const sendData=async(excelData)=>{
+const sendData=async(formData)=>{
     try{
         const response=await fetch("http://localhost:3001/create",{
             method:"POST",
-            headers:{
-                "Content-Type":"application/json"
-            },
-            body:JSON.stringify(excelData)
+            body:formData
         })
+
         if(!response.ok) {
             throw new Error(`Erorr in parsing data! Status: ${response.status}`);
         }
@@ -72,7 +55,6 @@ const sendData=async(excelData)=>{
         console.log("Erorr in Sending Data",error.message);
     }
 }
-
 const renderUsers=(usersData)=>{
     let usersContainer=document.getElementById("usersContainer");
     usersContainer.innerText="";
@@ -88,3 +70,4 @@ const renderUsers=(usersData)=>{
     `)
     })
 }
+getAllUsers();
