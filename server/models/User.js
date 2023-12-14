@@ -1,18 +1,20 @@
-import mongoose from "mongoose";
+import {mongoose} from "../packages/packages.js";
 
 const userSchema=new mongoose.Schema({
     name:{
-        type:String
+        type:String,
     },
     email:{
         type:String,
         required:true,
-        unique:true
+        unique:true,
+        index:true
     },
     phone:{
         type:String,
         unique:true,
-        required:true
+        required:true,
+        index:true
     },
     amount:{
         type:Number

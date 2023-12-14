@@ -1,4 +1,4 @@
-import nodemailer from "nodemailer";
+import {nodemailer} from "../packages/packages.js";
 
 export const sendEmail=async(userName,userEmail,fileName,pdfBuffer)=>{
     const transporter=nodemailer.createTransport({

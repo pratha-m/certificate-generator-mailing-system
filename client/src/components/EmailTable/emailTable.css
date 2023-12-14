@@ -1,0 +1,22 @@
+.eachUser_head {
+    display: flex;
+    justify-content: space-around;
+    background-color: black;
+    margin-top: 30px;
+    color: white;
+  }
+  
+  .eachUser_head p {
+    padding: 20px;
+    font-weight: bold;
+  }
+  
+  .eachUser {
+    display: flex;
+    justify-content: space-around;
+    background-color: rgb(217, 214, 220);
+  }
+  
+  .eachUser p {
+    padding: 20px;
+  }

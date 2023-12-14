@@ -1,13 +1,11 @@
-import ejs from "ejs";
-import fs from "fs";
-import puppeteer from "puppeteer";
+import {ejs,fs,puppeteer} from "../packages/packages.js";
 
-export const generateCertificate=async(user_name)=>{
+export const generateCertificate=async(user_name,no_of_trees)=>{
     const ejsPath="views/certificate.ejs"
 
     const fileRead=fs.readFileSync(ejsPath,"utf-8");
 
-    const html=ejs.render(fileRead,{name:user_name});
+    const html=ejs.render(fileRead,{name:user_name,no_of_trees:no_of_trees});
 
     const browser=await puppeteer.launch({headless:"new"});
 

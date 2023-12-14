@@ -1,4 +1,4 @@
-import XLSX from "xlsx"
+import {XLSX} from "../packages/packages.js";
 
 export const excelToJson=(excelFileBuffer)=>{
     const workbook=XLSX.read(excelFileBuffer,{type:"buffer"});

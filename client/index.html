@@ -1,52 +1,13 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        *{
-            margin: 0;
-            padding: 0;
-        }
-        .eachUser_head{
-            display: flex;
-            justify-content: space-around;
-            background-color: rgb(125, 108, 108);
-            margin-top: 30px;
-        }
-        .eachUser_head p{
-            padding: 20px;
-            font-weight: bold;
-        }
-        .eachUser{
-            display: flex;
-            justify-content: space-around;
-            background-color: rgb(217, 214, 220);
-        }
-        .eachUser p{
-            padding: 20px;
-        }
-        
-    </style>
-</head>
-<body>
-    <form id="uploadForm">
-        <label for="fileInput" >Imort User Excel File :</label>
-        <input type="file" id="fileInput" accept=".xlsx, .csv">
-        <button>Submit</button> 
-    </form>
-    
-    <div class="eachUser_head">
-        <p>Name</p> 
-        <p>Email</p> 
-        <p>Phone</p> 
-        <p>Amount</p> 
-        <p>No Of trees</p> 
-     </div>
-    <div class="usersContainer" id="usersContainer">
-        
-    </div>
-    <script type="module" src="./js/index.js"></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + React</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>

@@ -1,5 +1,6 @@
 const uploadForm=document.getElementById("uploadForm");
 
+let loading=false;
 const getAllUsers=async()=>{
     try{
         const response=await fetch("http://localhost:3001/all",{
@@ -24,6 +25,8 @@ uploadForm.addEventListener("submit",async(e)=>{
     const fileInput=document.getElementById("fileInput");
 
     if(fileInput.files.length>0){
+        window.loading=true;
+        
         const file=fileInput.files[0];
         
         const formData=new FormData();
@@ -33,6 +36,7 @@ uploadForm.addEventListener("submit",async(e)=>{
         await sendData(formData);
     }    
     else{
+        window.loading=false;
         alert("Pls Upload The File")
     }
 })
@@ -43,16 +47,17 @@ const sendData=async(formData)=>{
             body:formData
         })
 
-        if(!response.ok) {
-            throw new Error(`Erorr in parsing data! Status: ${response.status}`);
-        }
-
         const responseData=await response.json();
+
+        window.loading=false;
+
+        alert("Certificate Sent Successfully")
 
         renderUsers(responseData.users);
     }
     catch(error){
-        console.log("Erorr in Sending Data",error.message);
+        window.loading=false;
+        alert("Eror in Sending Email");
     }
 }
 const renderUsers=(usersData)=>{
@@ -70,4 +75,29 @@ const renderUsers=(usersData)=>{
     `)
     })
 }
-getAllUsers();
+// getAllUsers();
+
+function onVariableChange(newValue) {
+  console.log('Variable changed to:', newValue);
+  let submitBtn=document.getElementById("submitBtn");
+  if(loading){
+    submitBtn.innerText="Submitting...";
+  }
+  else{
+    submitBtn.innerText="Submit";
+  }
+}
+
+Object.defineProperty(window, 'loading', {
+  get: function() {
+    return loading;
+  },
+  set: function(newValue) {
+    if (newValue !== loading) {
+       loading = newValue;
+       onVariableChange(newValue);
+    }
+  },
+  enumerable: true,
+  configurable: true
+});
