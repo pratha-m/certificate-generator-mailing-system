@@ -34,7 +34,6 @@ function App() {
       toastId:"id1"
     });
   }
-
   const handleFileInput=(e)=>{
      let files=e.target.files;
      if(files && files.length>0) setExcelFile(files[0]);
@@ -51,7 +50,7 @@ function App() {
       formData.append("file",excelFile);
   
       await axios({
-        url:"http://localhost:3001/users/create",
+        url:`${import.meta.env.VITE_BASE_URL}/users/create`,
         method:"POST",
         data:formData
       });

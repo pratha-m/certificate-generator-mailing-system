@@ -7,7 +7,7 @@ export const generateCertificate=async(user_name,no_of_trees)=>{
 
     const html=ejs.render(fileRead,{name:user_name,no_of_trees:no_of_trees});
 
-    const browser=await puppeteer.launch({headless:"new"});
+    const browser=await puppeteer.launch({headless:"new",executablePath: '/path/to/Chrome'});
 
     const page=await browser.newPage();
 
